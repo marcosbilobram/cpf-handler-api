@@ -1,24 +1,25 @@
 package com.max.cpfhandler.exceptions;
 
-public class InvalidCpfException extends Exception{
+import org.hibernate.PropertyValueException;
 
-    public InvalidCpfException() {
-        super();
+public class InvalidCpfException extends PropertyValueException {
+
+    public InvalidCpfException(String message, String entityName, String propertyName) {
+        super(message, entityName, propertyName);
     }
 
-    public InvalidCpfException(String message) {
-        super(message);
+    @Override
+    public String getEntityName() {
+        return super.getEntityName();
     }
 
-    public InvalidCpfException(String message, Throwable cause) {
-        super(message, cause);
+    @Override
+    public String getPropertyName() {
+        return super.getPropertyName();
     }
 
-    public InvalidCpfException(Throwable cause) {
-        super(cause);
-    }
-
-    protected InvalidCpfException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    @Override
+    public String getMessage() {
+        return super.getMessage();
     }
 }

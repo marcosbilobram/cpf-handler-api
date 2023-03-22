@@ -1,5 +1,6 @@
 package com.max.cpfhandler.services;
 
+import com.max.cpfhandler.dto.InvalidCpfDTO;
 import com.max.cpfhandler.entities.InvalidCPF;
 import com.max.cpfhandler.repositories.InvalidCpfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,11 @@ public class InvalidCPFService {
     }
 
     public InvalidCPF findById(Long id) {
-        return  repo.findById(id).get();
+        return repo.findById(id).get();
+    }
+
+    public InvalidCPF findByCpfValue(String cpfValue){
+        return repo.getByCpf(cpfValue);
     }
 
     public void deleteById(Long id) {
@@ -42,6 +47,13 @@ public class InvalidCPFService {
     public void dataUpdate(InvalidCPF inDBCpf, InvalidCPF cpf) {
         inDBCpf.setCpf(cpf.getCpf());
         inDBCpf.setCreatedAt(cpf.getCreatedAt());
+    }
+
+    public InvalidCPF fromDTO(InvalidCpfDTO cpf) {
+        return new InvalidCPF(
+                cpf.getId(),
+                cpf.getCpf(),
+                cpf.getCreationDate());
     }
 
 }

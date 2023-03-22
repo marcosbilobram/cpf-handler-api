@@ -7,4 +7,6 @@ public interface InvalidCpfRepository extends JpaRepository<InvalidCPF, Long > {
     //InvalidCPF findBycpf(String cpf);
 
     Void deleteByCpf(String cpf);
+
+    InvalidCPF getByCpf(String cpf);
 }

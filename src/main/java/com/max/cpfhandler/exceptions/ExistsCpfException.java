@@ -1,6 +1,8 @@
 package com.max.cpfhandler.exceptions;
 
-public class ExistsCpfException extends Exception{
+import jakarta.persistence.EntityExistsException;
+
+public class ExistsCpfException extends EntityExistsException {
 
     public ExistsCpfException() {
         super();
@@ -16,9 +18,5 @@ public class ExistsCpfException extends Exception{
 
     public ExistsCpfException(Throwable cause) {
         super(cause);
-    }
-
-    protected ExistsCpfException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

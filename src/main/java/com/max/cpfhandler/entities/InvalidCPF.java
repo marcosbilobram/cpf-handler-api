@@ -32,6 +32,12 @@ public class InvalidCPF {
         this.cpf = cpf;
     }
 
+    public InvalidCPF(Long id, String cpf, Calendar createdAt) {
+        this.id = id;
+        this.cpf = cpf;
+        this.createdAt = createdAt;
+    }
+
     public Long getId() {
         return id;
     }
