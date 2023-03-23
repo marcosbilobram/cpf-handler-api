@@ -13,10 +13,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ResponseStatus
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private String exceptionClassName;
+
     @ExceptionHandler(InvalidCpfException.class)
     public ResponseEntity<ErrorMessage> invalidCpfException(InvalidCpfException exception, WebRequest request){
 
-        ErrorMessage message = new ErrorMessage(exception.getClass().getName(), exception.getMessage());
+        exceptionClassName = InvalidCpfException.class.getName();
+
+        ErrorMessage message = new ErrorMessage(exceptionClassName.
+                                substring(exceptionClassName.lastIndexOf(".") + 1),
+                                exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
@@ -24,13 +30,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(ExistsCpfException.class)
     public ResponseEntity<ErrorMessage> existsCpfException(ExistsCpfException exception, WebRequest request){
 
-        ErrorMessage message = new ErrorMessage(exception.getClass().getName(), exception.getMessage());
+        exceptionClassName = ExistsCpfException.class.getName();
+
+        ErrorMessage message = new ErrorMessage(exceptionClassName.
+                                    substring(exceptionClassName.lastIndexOf(".") + 1),
+                                    exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
     }
 
     @ExceptionHandler(NotFoundCpfException.class)
     public ResponseEntity<ErrorMessage> notFoundCpfException(NotFoundCpfException exception, WebRequest request){
+
+        exceptionClassName = NotFoundCpfException.class.getName();
 
         ErrorMessage message = new ErrorMessage(exception.getClass().getName(), exception.getMessage());
 

@@ -1,25 +1,20 @@
 package com.max.cpfhandler.exceptions;
 
-import org.hibernate.PropertyValueException;
+public class InvalidCpfException extends IllegalArgumentException {
 
-public class InvalidCpfException extends PropertyValueException {
-
-    public InvalidCpfException(String message, String entityName, String propertyName) {
-        super(message, entityName, propertyName);
+    public InvalidCpfException() {
+        super();
     }
 
-    @Override
-    public String getEntityName() {
-        return super.getEntityName();
+    public InvalidCpfException(String s) {
+        super(s);
     }
 
-    @Override
-    public String getPropertyName() {
-        return super.getPropertyName();
+    public InvalidCpfException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    @Override
-    public String getMessage() {
-        return super.getMessage();
+    public InvalidCpfException(Throwable cause) {
+        super(cause);
     }
 }
