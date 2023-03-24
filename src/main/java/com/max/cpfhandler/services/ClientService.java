@@ -6,10 +6,12 @@ import com.max.cpfhandler.entities.CPF;
 import com.max.cpfhandler.entities.Client;
 import com.max.cpfhandler.exceptions.ExistsCpfException;
 import com.max.cpfhandler.exceptions.InvalidCpfException;
+import com.max.cpfhandler.exceptions.NotFoundCpfException;
 import com.max.cpfhandler.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -38,6 +40,7 @@ public class ClientService {
             throw new InvalidCpfException("CPF is not valid.");
 
         client.getCpf().setCpf(cpfService.removeNotNumberCharacters(client.getCpf().getCpf()));
+        client.getCpf().setCreatedAt(Calendar.getInstance());
 
         return repo.save(client);
     }
@@ -49,11 +52,7 @@ public class ClientService {
     }
 
     public void cpfMayBeAFraud(String cpf){
-        cpfService.validateCPF(cpf);
-        String treatedCPF;
-
-        treatedCPF = cpfService.removeNotNumberCharacters(cpf);
-        Client client = repo.findClientCpfByCpfValue(treatedCPF);
+        Client client = findClientByCpfWithValidation(cpf);
         if(client.getCpf().isItaFraud()){
             throw new ExistsCpfException("CPF" + cpf + "is alerady on the fraud list");
         }
@@ -63,14 +62,30 @@ public class ClientService {
     }
 
     public void cpfIsNotAFraud(String cpf){
+        Client client = findClientByCpfWithValidation(cpf);
+        client.getCpf().setCanBeaFraud(false);
+
+        repo.save(client);
+    }
+
+    public Client findClientByCpfWithValidation(String cpf){
         cpfService.validateCPF(cpf);
         String treatedCPF;
 
         treatedCPF = cpfService.removeNotNumberCharacters(cpf);
         Client client = repo.findClientCpfByCpfValue(treatedCPF);
-        client.getCpf().setCanBeaFraud(false);
 
-        repo.save(client);
+        return client;
+    }
+
+    public CPF checkIfCpfIsSavedAsFraud(String cpf){
+        Client client = findClientByCpfWithValidation(cpf);
+        if (client.getCpf().isItaFraud()){
+            return client.getCpf();
+        }
+        else {
+            throw new NotFoundCpfException("The CPF: " + cpf + " is not on the fraud list");
+        }
     }
 
     public void dataUpdate(Client inDBclient, Client client) {

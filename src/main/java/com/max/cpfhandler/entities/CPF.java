@@ -18,15 +18,14 @@ public class CPF {
 
     public CPF(){}
 
+    public CPF(String cpf) {
+        this.cpf = cpf;
+        this.createdAt = Calendar.getInstance();
+    }
+
     public CPF(String cpf, Calendar createdAt) {
         this.cpf = cpf;
         this.createdAt = createdAt;
-    }
-
-    public CPF(String cpf, Calendar createdAt, boolean canBeaFraud) {
-        this.cpf = cpf;
-        this.createdAt = createdAt;
-        this.canBeaFraud = canBeaFraud;
     }
 
     public String getCpf() {

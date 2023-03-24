@@ -42,7 +42,4 @@ public class CpfService {
     public String removeNotNumberCharacters(String cpf){
         return cpf = cpf.replace(".", "").replace("-", "");
     }
-
-
-
 }

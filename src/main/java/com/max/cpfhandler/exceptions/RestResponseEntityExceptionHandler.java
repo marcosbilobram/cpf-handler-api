@@ -44,7 +44,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         exceptionClassName = NotFoundCpfException.class.getName();
 
-        ErrorMessage message = new ErrorMessage(exception.getClass().getName(), exception.getMessage());
+        ErrorMessage message = new ErrorMessage(exceptionClassName.
+                                    substring(exceptionClassName.lastIndexOf(".") + 1),
+                                    exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }

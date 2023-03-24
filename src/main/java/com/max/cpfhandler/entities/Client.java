@@ -16,7 +16,7 @@ public class Client {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "client_cpf", length = 11)),
-            @AttributeOverride(name = "createdAt", column = @Column(name = "createdAt"))
+            /*@AttributeOverride(name = "createdAt", column = @Column(name = "createdAt"))*/
     })
     private CPF cpf;
 

@@ -5,6 +5,7 @@ import com.max.cpfhandler.dto.CpfDTO;
 import com.max.cpfhandler.entities.CPF;
 import com.max.cpfhandler.entities.Client;
 import com.max.cpfhandler.services.ClientService;
+import com.max.cpfhandler.services.CpfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,23 +57,22 @@ public class ClientController {
     }
 
     @PutMapping(value = "mbf/cpf")
-    public ResponseEntity<Void> setclientCpfAsAFraud(@RequestBody CpfDTO cpfDTO){
+    public ResponseEntity<Void> addCPFInFraudList(@RequestBody CpfDTO cpfDTO){
         //CPF cpf = service.fromCPFDTO(cpfDTO);
         service.cpfMayBeAFraud(cpfDTO.getCpf());
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(value = "mbf/cpf/{cpf}")
-    public ResponseEntity<Void> setclientCpfAsNotAFraud(@PathVariable String cpf){
+    public ResponseEntity<Void> removeCpfFromFraudList(@PathVariable String cpf){
         //CPF cpf = service.fromCPFDTO(cpfDTO);
         service.cpfIsNotAFraud(cpf);
         return ResponseEntity.noContent().build();
     }
 
-    /*@GetMapping(value = "/{cpf_id}")
-    public ResponseEntity<CpfDTO> findByCpfValue(@PathVariable String cpfValue){
-        CPF cpf = service.findByCpfValue(cpfValue);
-        return ResponseEntity.ok().body(new CpfDTO(cpf));
-    }*/
-
+    @GetMapping(value = "mbf/cpf/{cpf}")
+    public ResponseEntity<CpfDTO> checkIfCpfIsSavedAsFraud(@PathVariable String cpf){
+        CPF cpfInDB = service.checkIfCpfIsSavedAsFraud(cpf);
+        return ResponseEntity.ok(new CpfDTO(cpfInDB));
+    }
 }
