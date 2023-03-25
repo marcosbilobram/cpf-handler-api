@@ -53,7 +53,7 @@ public class ClientService {
 
     public void cpfMayBeAFraud(String cpf){
         Client client = findClientByCpfWithValidation(cpf);
-        if(client.getCpf().isItaFraud()){
+        if(client.getCpf().canBeAFraud()){
             throw new ExistsCpfException("CPF" + cpf + "is alerady on the fraud list");
         }
 
@@ -73,19 +73,24 @@ public class ClientService {
         String treatedCPF;
 
         treatedCPF = cpfService.removeNotNumberCharacters(cpf);
-        Client client = repo.findClientCpfByCpfValue(treatedCPF);
+        Client client = repo.findClientThatEqualsCpfValue(treatedCPF);
 
         return client;
     }
 
     public CPF checkIfCpfIsSavedAsFraud(String cpf){
         Client client = findClientByCpfWithValidation(cpf);
-        if (client.getCpf().isItaFraud()){
-            return client.getCpf();
-        }
-        else {
+        if (client.getCpf().canBeAFraud()){
+            return new CPF(client.getCpf().getCpf(),
+                    client.getCpf().getCreatedAt(),
+                    client.getCpf().canBeAFraud());
+        } else {
             throw new NotFoundCpfException("The CPF: " + cpf + " is not on the fraud list");
         }
+    }
+
+    public List<CPF> findAllFraudCPFs(){
+        return repo.findAllFraudCPFs();
     }
 
     public void dataUpdate(Client inDBclient, Client client) {
@@ -102,7 +107,5 @@ public class ClientService {
                 cpf.getCpf(),
                 cpf.getCreatedAt());
     }
-
-
 
 }

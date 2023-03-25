@@ -75,4 +75,11 @@ public class ClientController {
         CPF cpfInDB = service.checkIfCpfIsSavedAsFraud(cpf);
         return ResponseEntity.ok(new CpfDTO(cpfInDB));
     }
+
+    @GetMapping(value = "mbf/cpf")
+    public ResponseEntity<List<CpfDTO>> findAllFraudCPFs(){
+        List<CPF> cpfs = service.findAllFraudCPFs();
+        List<CpfDTO> cpfDTOS = cpfs.stream().map(ad -> new CpfDTO(ad)).toList();
+        return ResponseEntity.ok().body(cpfDTOS);
+    }
 }

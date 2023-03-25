@@ -2,12 +2,17 @@ package com.max.cpfhandler.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Calendar;
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Embeddable
+@Builder
 public class CPF {
 
+    @Column(length = 11, unique = true)
     private String cpf;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -15,8 +20,6 @@ public class CPF {
     private Calendar createdAt;
 
     private boolean canBeaFraud;
-
-    public CPF(){}
 
     public CPF(String cpf) {
         this.cpf = cpf;
@@ -28,23 +31,7 @@ public class CPF {
         this.createdAt = createdAt;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Calendar getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Calendar createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public boolean isItaFraud() {
+    public boolean canBeAFraud() {
         return canBeaFraud;
     }
 
