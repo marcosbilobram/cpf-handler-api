@@ -1,6 +1,7 @@
 package com.max.cpfhandler.exceptions;
 
 import com.max.cpfhandler.entities.ErrorMessage;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -51,5 +52,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorMessage> dataIntegrityViolation(DataIntegrityViolationException exception, WebRequest request){
+
+        exceptionClassName = DataIntegrityViolationException.class.getName();
+
+        ErrorMessage message = new ErrorMessage(exceptionClassName.
+                substring(exceptionClassName.lastIndexOf(".") + 1),
+                exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+    }
 
 }

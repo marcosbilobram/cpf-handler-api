@@ -5,7 +5,6 @@ import com.max.cpfhandler.dto.CpfDTO;
 import com.max.cpfhandler.entities.CPF;
 import com.max.cpfhandler.entities.Client;
 import com.max.cpfhandler.services.ClientService;
-import com.max.cpfhandler.services.CpfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +58,7 @@ public class ClientController {
     @PutMapping(value = "mbf/cpf")
     public ResponseEntity<Void> addCPFInFraudList(@RequestBody CpfDTO cpfDTO){
         //CPF cpf = service.fromCPFDTO(cpfDTO);
-        service.cpfMayBeAFraud(cpfDTO.getCpf());
+        service.cpfCanBeAFraud(cpfDTO.getCpf());
         return ResponseEntity.noContent().build();
     }
 
@@ -79,7 +78,8 @@ public class ClientController {
     @GetMapping(value = "mbf/cpf")
     public ResponseEntity<List<CpfDTO>> findAllFraudCPFs(){
         List<CPF> cpfs = service.findAllFraudCPFs();
-        List<CpfDTO> cpfDTOS = cpfs.stream().map(ad -> new CpfDTO(ad)).toList();
+        List<CpfDTO> cpfDTOS = cpfs.stream().map(cpf -> new CpfDTO(cpf)).toList();
         return ResponseEntity.ok().body(cpfDTOS);
     }
+
 }

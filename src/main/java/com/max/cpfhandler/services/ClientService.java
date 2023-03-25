@@ -9,6 +9,7 @@ import com.max.cpfhandler.exceptions.InvalidCpfException;
 import com.max.cpfhandler.exceptions.NotFoundCpfException;
 import com.max.cpfhandler.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -41,8 +42,16 @@ public class ClientService {
 
         client.getCpf().setCpf(cpfService.removeNotNumberCharacters(client.getCpf().getCpf()));
         client.getCpf().setCreatedAt(Calendar.getInstance());
-
-        return repo.save(client);
+        try {
+            return repo.save(client);
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException("There is already a register with the CPF " + client.getCpf().getCpf());
+        }
+        catch (Exception e){
+            e.getMessage();
+        }
+        return null;
     }
 
     public Client update(Client client) {
@@ -51,8 +60,9 @@ public class ClientService {
         return repo.save(inDBclient);
     }
 
-    public void cpfMayBeAFraud(String cpf){
+    public void cpfCanBeAFraud(String cpf){
         Client client = findClientByCpfWithValidation(cpf);
+
         if(client.getCpf().canBeAFraud()){
             throw new ExistsCpfException("CPF" + cpf + "is alerady on the fraud list");
         }
@@ -74,6 +84,10 @@ public class ClientService {
 
         treatedCPF = cpfService.removeNotNumberCharacters(cpf);
         Client client = repo.findClientThatEqualsCpfValue(treatedCPF);
+
+        if (client == null){
+            throw new NotFoundCpfException("Can't found the CPF:" + cpf + " in the database");
+        }
 
         return client;
     }
