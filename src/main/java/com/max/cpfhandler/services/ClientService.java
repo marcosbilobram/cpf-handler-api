@@ -46,7 +46,7 @@ public class ClientService {
             return repo.save(client);
         }
         catch (DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException("There is already a register with the CPF " + client.getCpf().getCpf());
+            throw new ExistsCpfException("There is already a register with the CPF " + client.getCpf().getCpf());
         }
         catch (Exception e){
             e.getMessage();
@@ -54,13 +54,13 @@ public class ClientService {
         return null;
     }
 
-    public Client update(Client client) {
+    /*public Client update(Client client) {
         Client inDBclient = findById(client.getId());
         dataUpdate(inDBclient, client);
         return repo.save(inDBclient);
-    }
+    }*/
 
-    public void cpfCanBeAFraud(String cpf){
+    /*public void cpfCanBeAFraud(String cpf){
         Client client = findClientByCpfWithValidation(cpf);
 
         if(client.getCpf().canBeAFraud()){
@@ -69,13 +69,13 @@ public class ClientService {
 
         client.getCpf().setCanBeaFraud(true);
         repo.save(client);
-    }
+    }*/
 
-    public void cpfIsNotAFraud(String cpf){
+    public void removeCPF(String cpf){
         Client client = findClientByCpfWithValidation(cpf);
-        client.getCpf().setCanBeaFraud(false);
+        //client.getCpf().setCanBeaFraud(false);
 
-        repo.save(client);
+        repo.deleteById(client.getId());
     }
 
     public Client findClientByCpfWithValidation(String cpf){
@@ -94,10 +94,11 @@ public class ClientService {
 
     public CPF checkIfCpfIsSavedAsFraud(String cpf){
         Client client = findClientByCpfWithValidation(cpf);
-        if (client.getCpf().canBeAFraud()){
+        boolean clientExists = client != null;
+        if (clientExists){
             return new CPF(client.getCpf().getCpf(),
-                    client.getCpf().getCreatedAt(),
-                    client.getCpf().canBeAFraud());
+                    client.getCpf().getCreatedAt()
+                    );
         } else {
             throw new NotFoundCpfException("The CPF: " + cpf + " is not on the fraud list");
         }

@@ -17,6 +17,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query(value = "SELECT c FROM Client c WHERE c.cpf.cpf = ?1 ")
     Client findClientThatEqualsCpfValue(String cpf);
 
-    @Query(value = "SELECT c.cpf FROM Client c WHERE c.cpf.canBeaFraud = true")
+    @Query(value = "SELECT c.cpf FROM Client c")
     List<CPF> findAllFraudCPFs();
 }

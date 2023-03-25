@@ -14,13 +14,40 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/anti-fraud")
 public class ClientController {
 
     @Autowired
     ClientService service;
 
-    @GetMapping
+    @PostMapping("/cpf")
+    public ResponseEntity<Void> insertClientInDB(@RequestBody ClientDTO clientDTO) {
+        Client client = service.fromClientDTO(clientDTO);
+        client = service.insert(client);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping(value = "/cpf/{cpf}")
+    public ResponseEntity<CpfDTO> checkIfCpfIsSavedAsFraud(@PathVariable String cpf){
+        CPF cpfInDB = service.checkIfCpfIsSavedAsFraud(cpf);
+        return ResponseEntity.ok(new CpfDTO(cpfInDB));
+    }
+
+    @DeleteMapping(value = "/cpf/{cpf}")
+    public ResponseEntity<Void> removeCpfFromFraudList(@PathVariable String cpf){
+        service.removeCPF(cpf);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/cpf")
+    public ResponseEntity<List<CpfDTO>> findAllFraudCPFs(){
+        List<CPF> cpfs = service.findAllFraudCPFs();
+        List<CpfDTO> cpfDTOS = cpfs.stream().map(cpf -> new CpfDTO(cpf)).toList();
+        return ResponseEntity.ok().body(cpfDTOS);
+    }
+
+    /*@GetMapping
     public ResponseEntity<List<ClientDTO>> findAllClients(){
         List<Client> clients = service.findAll();
         List<ClientDTO> clientsDTOS = clients.stream().map(ad -> new ClientDTO(ad)).toList();
@@ -31,14 +58,6 @@ public class ClientController {
     public ResponseEntity<ClientDTO> findClientById(@PathVariable Long id){
         Client client = service.findById(id);
         return ResponseEntity.ok().body(new ClientDTO(client));
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> insertClientInDB(@RequestBody ClientDTO clientDTO) {
-        Client client = service.fromClientDTO(clientDTO);
-        client = service.insert(client);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
-        return ResponseEntity.created(uri).build();
     }
 
     @DeleteMapping
@@ -55,31 +74,13 @@ public class ClientController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(value = "mbf/cpf")
+    @PutMapping(value = "/cpf")
     public ResponseEntity<Void> addCPFInFraudList(@RequestBody CpfDTO cpfDTO){
         //CPF cpf = service.fromCPFDTO(cpfDTO);
         service.cpfCanBeAFraud(cpfDTO.getCpf());
         return ResponseEntity.noContent().build();
     }
+    */
 
-    @PutMapping(value = "mbf/cpf/{cpf}")
-    public ResponseEntity<Void> removeCpfFromFraudList(@PathVariable String cpf){
-        //CPF cpf = service.fromCPFDTO(cpfDTO);
-        service.cpfIsNotAFraud(cpf);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping(value = "mbf/cpf/{cpf}")
-    public ResponseEntity<CpfDTO> checkIfCpfIsSavedAsFraud(@PathVariable String cpf){
-        CPF cpfInDB = service.checkIfCpfIsSavedAsFraud(cpf);
-        return ResponseEntity.ok(new CpfDTO(cpfInDB));
-    }
-
-    @GetMapping(value = "mbf/cpf")
-    public ResponseEntity<List<CpfDTO>> findAllFraudCPFs(){
-        List<CPF> cpfs = service.findAllFraudCPFs();
-        List<CpfDTO> cpfDTOS = cpfs.stream().map(cpf -> new CpfDTO(cpf)).toList();
-        return ResponseEntity.ok().body(cpfDTOS);
-    }
 
 }

@@ -16,16 +16,8 @@ public class CpfDTO {
 
     private Calendar createdAt;
 
-    private boolean canBeaFraud;
-
     public CpfDTO(CPF cpf) {
         this.cpf = cpf.getCpf();
         this.createdAt = cpf.getCreatedAt();
-        this.canBeaFraud = cpf.canBeAFraud();
-    }
-
-    public CpfDTO(String cpf, Calendar createdAt) {
-        this.cpf = cpf;
-        this.createdAt = createdAt;
     }
 }
