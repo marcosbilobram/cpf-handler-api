@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;

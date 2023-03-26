@@ -4,38 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.max.cpfhandler.dto.HighRiskCpfDTO;
 import com.max.cpfhandler.entities.HighRiskCPF;
 import com.max.cpfhandler.exceptions.InvalidCpfException;
-import com.max.cpfhandler.repositories.HighRiskCpfRepository;
+import com.max.cpfhandler.exceptions.NotFoundCpfException;
 import com.max.cpfhandler.services.HighRiskCpfService;
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.mockito.internal.matchers.InstanceOf;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -58,13 +46,13 @@ public class HighRiskCpfControllerTest {
     private HighRiskCpfDTO highRiskCpfDTO;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         highRiskCPF = HighRiskCPF.builder().id(1L).cpf("674.350.660-52").createdAt(Calendar.getInstance()).build();
         highRiskCpfDTO = HighRiskCpfDTO.builder().cpf("674.350.660-52").createdAt(Calendar.getInstance()).build();
     }
 
     @Test
-    public void mustInsertNewCpfAndReturnCreated() throws Exception{
+    public void mustInsertNewCpfAndReturnCreatedInPostMethod() throws Exception {
 
         when(service.insert(ArgumentMatchers.any()))
                 .thenReturn(highRiskCPF);
@@ -76,8 +64,107 @@ public class HighRiskCpfControllerTest {
     }
 
     @Test
-    public void mustThrowInvalidCpfExceptionWhenInvalidCpfIsPassed() throws InvalidCpfException{
+    public void mustThrowInvalidCpfExceptionWhenInvalidCpfIsGivenInPostMethod() throws Exception {
+        HighRiskCpfDTO cpfDTO = highRiskCpfDTO;
+        cpfDTO.setCpf("123");
+
+        HighRiskCPF cpf = highRiskCPF;
+        cpf.setCpf("14");
+
+        when(service.insert(ArgumentMatchers.any())).thenThrow(InvalidCpfException.class);
+
+        this.mockMvc.perform(post("/high-risk-cpf/cpf")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cpfDTO)))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void mustReturnTheGivenCpfInDbAfterGetRequest() throws Exception {
+
+        when(service.checkIfCpfIsInDB(highRiskCPF.getCpf())).thenReturn(highRiskCPF);
+
+        this.mockMvc.perform(get("/high-risk-cpf/cpf/{cpf}", highRiskCPF.getCpf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.cpf").value(highRiskCPF.getCpf()));
 
     }
 
+    @Test
+    public void mustReturnInvalidCPfExceptionWhenCpfIsGivenInGetRequest() throws Exception {
+
+        String invalidCPF = "1684684684";
+        when(service.checkIfCpfIsInDB(invalidCPF)).thenThrow(InvalidCpfException.class);
+
+        this.mockMvc.perform(get("/high-risk-cpf/cpf/{cpf}", invalidCPF)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andExpect(jsonPath("$.type").value("InvalidCpfException"))
+                .andExpect(jsonPath("$.message").value("CPF is not valid."));
+
+    }
+
+    @Test
+    public void mustReturnNotFoundCpfExceptionInTheGetRequestResponse() throws Exception {
+        String cpf = "770.030.560-97";
+        when(service.checkIfCpfIsInDB(cpf)).thenThrow(NotFoundCpfException.class);
+
+        this.mockMvc.perform(get("/high-risk-cpf/cpf/{cpf}", cpf)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(print())
+                .andExpect(jsonPath("$.type").value("NotFoundCpfException"));
+    }
+
+    @Test
+    public void mustReturnAllCPFsInDataBank() throws Exception {
+
+        when(service.findAllFraudCPFs()).thenReturn(List.of(highRiskCPF));
+
+        this.mockMvc.perform(get("/high-risk-cpf/cpf")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void mustDeleteTheGivenCpfFromDataBankAndReturnNoContent() throws Exception {
+        String cpf = highRiskCPF.getCpf();
+       doNothing().when(service).removeCpfFromDbByCpfValue(cpf);
+
+       this.mockMvc.perform(delete("/high-risk-cpf/cpf/{cpf}", cpf)
+               .contentType(MediaType.APPLICATION_JSON))
+               .andDo(print())
+               .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void mustReturnInvalidCpfExceptionInDeleteRequest() throws Exception {
+        String cpf = "50431225023";
+        doThrow(InvalidCpfException.class).when(service).removeCpfFromDbByCpfValue(cpf);
+
+        this.mockMvc.perform(delete("/high-risk-cpf/cpf/{cpf}", cpf)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type").value("InvalidCpfException"))
+                .andExpect(jsonPath("$.message").value("CPF is not valid."));
+    }
+
+    @Test
+    public void mustReturnNotFoundCpfExceptionInDeleteRequest() throws Exception {
+        String cpf = "815.740.600-58";
+        doThrow(NotFoundCpfException.class).when(service).removeCpfFromDbByCpfValue(cpf);
+
+        this.mockMvc.perform(delete("/high-risk-cpf/cpf/{cpf}", cpf)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.type").value("NotFoundCpfException"))
+                .andExpect(jsonPath("$.message").value("Can't find the given CPF in data bank"));
+    }
 }

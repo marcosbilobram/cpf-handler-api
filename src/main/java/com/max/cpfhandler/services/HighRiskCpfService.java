@@ -27,7 +27,7 @@ public class HighRiskCpfService {
         return repo.findById(id).get();
     }
 
-    public HighRiskCPF insert(HighRiskCPF cpf) {
+    public HighRiskCPF insert(HighRiskCPF cpf)  {
         if(!validateCPF(cpf.getCpf()))
             throw new InvalidCpfException("CPF is not valid.");
 
