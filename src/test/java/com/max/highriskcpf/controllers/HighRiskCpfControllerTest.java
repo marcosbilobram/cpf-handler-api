@@ -1,11 +1,11 @@
-package com.max.cpfhandler.controllers;
+package com.max.highriskcpf.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.max.cpfhandler.dto.HighRiskCpfDTO;
-import com.max.cpfhandler.entities.HighRiskCPF;
-import com.max.cpfhandler.exceptions.InvalidCpfException;
-import com.max.cpfhandler.exceptions.NotFoundCpfException;
-import com.max.cpfhandler.services.HighRiskCpfService;
+import com.max.highriskcpf.dto.HighRiskCpfDTO;
+import com.max.highriskcpf.entities.HighRiskCPF;
+import com.max.highriskcpf.exceptions.InvalidCpfException;
+import com.max.highriskcpf.exceptions.NotFoundCpfException;
+import com.max.highriskcpf.services.HighRiskCpfService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

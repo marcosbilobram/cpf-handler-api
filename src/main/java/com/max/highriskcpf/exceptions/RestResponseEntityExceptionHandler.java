@@ -1,6 +1,6 @@
-package com.max.cpfhandler.exceptions;
+package com.max.highriskcpf.exceptions;
 
-import com.max.cpfhandler.entities.ErrorMessage;
+import com.max.highriskcpf.entities.ErrorMessage;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

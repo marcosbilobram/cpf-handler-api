@@ -1,4 +1,4 @@
-package com.max.cpfhandler.entities;
+package com.max.highriskcpf.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

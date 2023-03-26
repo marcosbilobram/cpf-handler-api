@@ -1,15 +1,13 @@
-package com.max.cpfhandler.controllers;
+package com.max.highriskcpf.controllers;
 
-import com.max.cpfhandler.dto.HighRiskCpfDTO;
-import com.max.cpfhandler.entities.HighRiskCPF;
-import com.max.cpfhandler.services.HighRiskCpfService;
+import com.max.highriskcpf.dto.HighRiskCpfDTO;
+import com.max.highriskcpf.entities.HighRiskCPF;
+import com.max.highriskcpf.services.HighRiskCpfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController

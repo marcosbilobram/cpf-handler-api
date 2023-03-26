@@ -1,6 +1,6 @@
-package com.max.cpfhandler.repositories;
+package com.max.highriskcpf.repositories;
 
-import com.max.cpfhandler.entities.HighRiskCPF;
+import com.max.highriskcpf.entities.HighRiskCPF;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.max.cpfhandler.services;
+package com.max.highriskcpf.services;
 
-import com.max.cpfhandler.entities.HighRiskCPF;
-import com.max.cpfhandler.repositories.HighRiskCpfRepository;
+import com.max.highriskcpf.entities.HighRiskCPF;
+import com.max.highriskcpf.repositories.HighRiskCpfRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

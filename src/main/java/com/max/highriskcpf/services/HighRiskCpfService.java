@@ -1,11 +1,11 @@
-package com.max.cpfhandler.services;
+package com.max.highriskcpf.services;
 
-import com.max.cpfhandler.dto.HighRiskCpfDTO;
-import com.max.cpfhandler.entities.HighRiskCPF;
-import com.max.cpfhandler.exceptions.ExistsCpfException;
-import com.max.cpfhandler.exceptions.InvalidCpfException;
-import com.max.cpfhandler.exceptions.NotFoundCpfException;
-import com.max.cpfhandler.repositories.HighRiskCpfRepository;
+import com.max.highriskcpf.dto.HighRiskCpfDTO;
+import com.max.highriskcpf.entities.HighRiskCPF;
+import com.max.highriskcpf.exceptions.ExistsCpfException;
+import com.max.highriskcpf.exceptions.InvalidCpfException;
+import com.max.highriskcpf.exceptions.NotFoundCpfException;
+import com.max.highriskcpf.repositories.HighRiskCpfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package com.max.cpfhandler.repositories;
+package com.max.highriskcpf.repositories;
 
-import com.max.cpfhandler.entities.HighRiskCPF;
+import com.max.highriskcpf.entities.HighRiskCPF;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HighRiskCpfRepository extends JpaRepository<HighRiskCPF, Long> {

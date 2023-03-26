@@ -1,6 +1,6 @@
-package com.max.cpfhandler.dto;
+package com.max.highriskcpf.dto;
 
-import com.max.cpfhandler.entities.HighRiskCPF;
+import com.max.highriskcpf.entities.HighRiskCPF;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
