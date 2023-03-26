@@ -1,4 +1,4 @@
-package com.max.cpfhandler.exceptions;
+package com.max.highriskcpf.exceptions;
 
 import jakarta.persistence.EntityExistsException;
 

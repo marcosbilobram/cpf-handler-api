@@ -1,10 +1,10 @@
-package com.max.cpfhandler;
+package com.max.highriskcpf;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class cpfHandlerApplicationTests {
+class highRiskCpfApplicationTests {
 
 	@Test
 	void contextLoads() {

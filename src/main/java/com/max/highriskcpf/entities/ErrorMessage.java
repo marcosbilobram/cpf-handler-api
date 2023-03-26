@@ -1,4 +1,4 @@
-package com.max.cpfhandler.entities;
+package com.max.highriskcpf.entities;
 
 public class ErrorMessage {
 

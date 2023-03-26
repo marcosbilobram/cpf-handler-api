@@ -1,6 +1,6 @@
-package com.max.cpfhandler.exceptions;
+package com.max.highriskcpf.exceptions;
 
-import com.max.cpfhandler.entities.ErrorMessage;
+import com.max.highriskcpf.entities.ErrorMessage;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         exceptionClassName = InvalidCpfException.class.getName();
 
+        String exMsg = exception.getMessage();
+
+        if(exMsg == null){
+            exMsg = "CPF is not valid.";
+        }
+
         ErrorMessage message = new ErrorMessage(exceptionClassName.
                                 substring(exceptionClassName.lastIndexOf(".") + 1),
-                                exception.getMessage());
+                                exMsg);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
@@ -32,10 +38,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<ErrorMessage> existsCpfException(ExistsCpfException exception, WebRequest request){
 
         exceptionClassName = ExistsCpfException.class.getName();
+        String exMsg = exception.getMessage();
+
+        if(exMsg == null){
+            exMsg = "CPF already exists in data bank";
+        }
 
         ErrorMessage message = new ErrorMessage(exceptionClassName.
                                     substring(exceptionClassName.lastIndexOf(".") + 1),
-                                    exception.getMessage());
+                                    exMsg);
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
     }
@@ -44,10 +55,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<ErrorMessage> notFoundCpfException(NotFoundCpfException exception, WebRequest request){
 
         exceptionClassName = NotFoundCpfException.class.getName();
+        String exMsg = exception.getMessage();
+
+        if(exMsg == null){
+            exMsg = "Can't find the given CPF in data bank";
+        }
 
         ErrorMessage message = new ErrorMessage(exceptionClassName.
                                     substring(exceptionClassName.lastIndexOf(".") + 1),
-                                    exception.getMessage());
+                                    exMsg);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
