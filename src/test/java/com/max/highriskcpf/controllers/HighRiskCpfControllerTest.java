@@ -3,6 +3,7 @@ package com.max.highriskcpf.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.max.highriskcpf.dto.HighRiskCpfDTO;
 import com.max.highriskcpf.entities.HighRiskCPF;
+import com.max.highriskcpf.exceptions.ExistsCpfException;
 import com.max.highriskcpf.exceptions.InvalidCpfException;
 import com.max.highriskcpf.exceptions.NotFoundCpfException;
 import com.max.highriskcpf.services.HighRiskCpfService;
@@ -78,6 +79,22 @@ public class HighRiskCpfControllerTest {
                 .content(objectMapper.writeValueAsString(cpfDTO)))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+
+    @Test
+    public void mustReturnExistsCpfExceptionWhenGivenAnAlreadyInDataBankCPF() throws Exception {
+
+        when(service.insert(ArgumentMatchers.any())).thenThrow(ExistsCpfException.class);
+
+        this.mockMvc.perform(post("/high-risk-cpf/cpf")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(highRiskCpfDTO)))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andExpect(jsonPath("$.type").value("ExistsCpfException"))
+                .andExpect(jsonPath("$.message").value("CPF already exists in data bank"));
+
     }
 
     @Test
