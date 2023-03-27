@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "49ee6449-1e0c-4e81-8507-502c6ee8a7b0",
+		"name": "HIgh-Risk-Cpf-API methods",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19076284"
+	},
+	"item": [
+		{
+			"name": "Add CPF in fraud list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cpf\": \"615.481.140-30\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/high-risk-cpf/cpf",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-risk-cpf",
+						"cpf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check If CPF is in fraud List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/high-risk-cpf/cpf/615.481.140-30",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-risk-cpf",
+						"cpf",
+						"615.481.140-30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove CPF from fraud list",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/high-risk-cpf/cpf/615.481.140-30",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-risk-cpf",
+						"cpf",
+						"615.481.140-30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all fraud list CPFs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/high-risk-cpf/cpf",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-risk-cpf",
+						"cpf"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
