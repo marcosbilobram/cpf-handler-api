@@ -53,7 +53,7 @@ Requisitos:
 Git : https://git-scm.com  
 Na pasta onde se deseja salvar o clone do projeto, clique com o botão direito na área da pasta e selecione a opção "Git Bash Here". Quando o terminal for aberto copie, cole e execute o seguinte comando :
 
-git clone https://github.com/marcosbilobram/cpf-handler-api.git
+git clone https://github.com/marcosbilobram/high-risk-cpf-api.git
 
 # Detalhamento dos endpoints
 
