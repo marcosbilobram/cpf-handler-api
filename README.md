@@ -47,7 +47,7 @@ Toda configuração de conexão e execução do banco de dados esta disponível 
 
 Faça o download do arquivo zip e descompacte na workspace da IDE. Então importe e abra o arquivo descompactado localizado na workspace da IDE.
 
-### Baixando via Github
+### Clonando via Github
 
 Requisitos:
 Git : https://git-scm.com  
@@ -55,7 +55,7 @@ Na pasta onde se deseja salvar o clone do projeto, clique com o botão direito n
 
 git clone https://github.com/marcosbilobram/cpf-handler-api.git
 
-## Detalhamento dos endpoints
+# Detalhamento dos endpoints
 
 Para um detalhamento completo dos endpoints feito pelo swagger, após a execução da aplicação, acesse a interface do swagger da aplicação pelo link : http://localhost:8080/swagger-ui/index.html#/.
 
@@ -132,3 +132,37 @@ Request Body:
 	"cpf": "413.530.550-43"
 }
 ``` 
+---
+
+# Exceções
+
+Foram implementadas exceções para tratar possíveis erros na aplicação.
+
+> Caso o CPF fornecido seja inválido:
+
+``` js
+InvalidCpfException:
+{
+	"type" : "InvalidCpfException",
+	"message" : "CPF is not valid."
+}
+```
+> Caso o CPF fornecido no método POST já exista na base de dados
+
+``` js
+ExistsCpfException:
+{
+	"type" : "ExistsCpfException",
+	"message" : "CPF already exists in databse"
+}
+```
+
+> Caso o CPF fornecido nos métodos GET não sejam encontrados na base de dados
+
+``` js
+NotFoundCpfException:
+{
+	"type" : "NotFoundCpfException",
+	"message" : "Can't find the given CPF in data bank"
+}
+```
