@@ -1,6 +1,6 @@
 # High Risk CPF API
 Olá! Este projeto tem como objetivo trazer uma API que gerencia uma lista de CPFs com risco de fraude.
-
+O projeto foi desenvolvido utilizando JDK 17, Spring Framework, JPA, banco de dados relacional H2, blblioteca Lombok e a biblioteca springdoc-openapi para documentação com swagger.
 
 ## Estrutura do Projeto
 
