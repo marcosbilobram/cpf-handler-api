@@ -6,7 +6,6 @@ import com.max.highriskcpf.services.HighRiskCpfService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +67,7 @@ public class HighRiskCpfController {
         return ResponseEntity.ok(new HighRiskCpfDTO(cpfInDB));
     }
 
-    @Operation(description = "Must insert a new CPF in database",
-            requestBody = @RequestBody(content = @Content(mediaType = "application/json", examples = {
-                    @ExampleObject(name = "CPF", value = "\"{\\\"cpf\\\":\\\"615.481.140-30\\\"}\"")
-            })))
+    @Operation(description = "Must insert a new CPF in database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Provided CPF successfully created in database"),
             @ApiResponse(responseCode = "400", description = "CPF provided is invalid, InvalidCpfException returned"
@@ -92,7 +88,7 @@ public class HighRiskCpfController {
     @PostMapping("/cpf")
     public ResponseEntity<Void> insertCPFInDB(@RequestBody HighRiskCpfDTO cpfDTO) {
         HighRiskCPF cpf = service.fromCPFDTO(cpfDTO);
-        service.insert(cpf);
+        cpf = service.insert(cpf);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

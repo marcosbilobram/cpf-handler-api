@@ -1,5 +1,7 @@
 package com.max.highriskcpf.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.max.highriskcpf.entities.HighRiskCPF;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -28,8 +28,9 @@ public class HighRiskCpfService {
     }
 
     public HighRiskCPF insert(HighRiskCPF cpf)  {
-        if(!validateCPF(cpf.getCpf()))
+        if(!validateCPF(cpf.getCpf())){
             throw new InvalidCpfException("CPF is not valid.");
+        }
 
         cpf.setCpf(removeNotNumberCharacters(cpf.getCpf()));
         cpf.setCreatedAt(Calendar.getInstance());
@@ -84,9 +85,8 @@ public class HighRiskCpfService {
     }
 
     public HighRiskCPF fromCPFDTO(HighRiskCpfDTO cpf) {
-        return new HighRiskCPF(
-                cpf.getCpf(),
-                cpf.getCreatedAt());
+        HighRiskCPF cpfCrt = new HighRiskCPF(cpf.getCpf(), Calendar.getInstance());
+        return cpfCrt;
     }
 
     private boolean validateCPF(String cpf) {
