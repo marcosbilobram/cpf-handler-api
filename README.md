@@ -56,3 +56,77 @@ Na pasta onde se deseja salvar o clone do projeto, clique com o botão direito n
 git clone https://github.com/marcosbilobram/cpf-handler-api.git
 
 ## Como acessar a aplicação
+
+Para um detalhamento completo dos endpoints feito pelo swagger, após a execução da aplicação, acesse a interface do swagger da aplicação pelo link : http://localhost:8080/swagger-ui/index.html#/.
+
+Segue abaixo detalhamento dos endpoint:
+
+Como já dito o projeto é executado na URL http://localhost:8080
+---
+> **GET** /high-risk-cpf/cpf
+> || Retorna todos os CPFs cadastrados ou array vazio
+
+```js
+Response:
+[
+    {
+        "cpf": "413.530.550-43",
+        "createdAt" : "2023-03-27T02:41:56"
+    },
+    {
+        "cpf": "428.594.522-57",
+        "createdAt" : "2023-03-27T02:42:56"
+    }
+]
+
+Or:
+    []
+
+```
+---
+
+> **POST** /high-risk-cpf/cpf
+> || Insere o cpf fornecido na base de dados
+
+``` js
+Request Body:
+{
+	"cpf": "413.530.550-43"
+}
+``` 
+---
+
+
+> **GET** /high-risk-cpf/cpf/{cpf}
+
+> Retorna o CPF fornecido se estiver na base de dados
+
+``` js
+Request Body:
+{
+	"cpf": "413.530.550-43"
+}
+``` 
+
+---
+
+```js
+Response Body:
+    {
+        "cpf": "413.530.550-43",
+        "createdAt" : "2023-03-27T02:41:56"
+    }
+```
+
+---
+
+> **Delete** /high-risk-cpf/cpf/{cpf}
+
+> Remove o CPF fornecido se estiver na base de dados
+
+``` js
+Request Body:
+{
+	"cpf": "413.530.550-43"
+}
+``` 
