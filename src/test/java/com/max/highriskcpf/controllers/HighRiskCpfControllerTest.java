@@ -93,7 +93,7 @@ public class HighRiskCpfControllerTest {
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isConflict())
                 .andExpect(jsonPath("$.type").value("ExistsCpfException"))
-                .andExpect(jsonPath("$.message").value("CPF already exists in data bank"));
+                .andExpect(jsonPath("$.message").value("CPF already exists in database"));
 
     }
 
