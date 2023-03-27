@@ -1,19 +1,14 @@
 package com.max.highriskcpf.controllers;
 
 import com.max.highriskcpf.dto.HighRiskCpfDTO;
-import com.max.highriskcpf.entities.ErrorMessage;
 import com.max.highriskcpf.entities.HighRiskCPF;
-import com.max.highriskcpf.exceptions.InvalidCpfException;
-import com.max.highriskcpf.exceptions.NotFoundCpfException;
-import com.max.highriskcpf.exceptions.RestResponseEntityExceptionHandler;
 import com.max.highriskcpf.services.HighRiskCpfService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
