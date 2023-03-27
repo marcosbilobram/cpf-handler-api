@@ -61,7 +61,7 @@ Para um detalhamento completo dos endpoints feito pelo swagger, após a execuç�
 
 Segue abaixo detalhamento dos endpoint:
 
-Como já dito o projeto é executado na URL http://localhost:8080
+Conforme citado anterirormente, o projeto é executado na URL http://localhost:8080
 
 ---
 > **GET** /high-risk-cpf/cpf
