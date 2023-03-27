@@ -86,7 +86,7 @@ Or:
 ---
 
 > **POST** /high-risk-cpf/cpf
-> || Insere o cpf fornecido na base de dados
+> Insere o cpf fornecido na base de dados
 
 ``` js
 Request Body:
