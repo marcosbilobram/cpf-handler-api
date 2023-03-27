@@ -55,7 +55,7 @@ Na pasta onde se deseja salvar o clone do projeto, clique com o botão direito n
 
 git clone https://github.com/marcosbilobram/cpf-handler-api.git
 
-## Como acessar a aplicação
+## Detalhamento dos endpoints
 
 Para um detalhamento completo dos endpoints feito pelo swagger, após a execução da aplicação, acesse a interface do swagger da aplicação pelo link : http://localhost:8080/swagger-ui/index.html#/.
 
@@ -64,7 +64,8 @@ Segue abaixo detalhamento dos endpoint:
 Como já dito o projeto é executado na URL http://localhost:8080
 ---
 > **GET** /high-risk-cpf/cpf
-> || Retorna todos os CPFs cadastrados ou array vazio
+>
+> Retorna todos os CPFs cadastrados ou array vazio
 
 ```js
 Response:
@@ -86,6 +87,7 @@ Or:
 ---
 
 > **POST** /high-risk-cpf/cpf
+> 
 > Insere o cpf fornecido na base de dados
 
 ``` js
