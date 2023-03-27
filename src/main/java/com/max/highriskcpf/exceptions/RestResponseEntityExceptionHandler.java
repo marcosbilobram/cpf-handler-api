@@ -41,7 +41,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         String exMsg = exception.getMessage();
 
         if(exMsg == null){
-            exMsg = "CPF already exists in data bank";
+            exMsg = "CPF already exists in database";
         }
 
         ErrorMessage message = new ErrorMessage(exceptionClassName.

@@ -1,6 +1,6 @@
 # High Risk CPF API
 Olá! Este projeto tem como objetivo trazer uma API que gerencia uma lista de CPFs com risco de fraude.
-
+O projeto foi desenvolvido utilizando JDK 17, Spring Framework, JPA, banco de dados relacional H2, biblioteca Lombok e a biblioteca springdoc-openapi para documentação com swagger.
 
 ## Estrutura do Projeto
 
@@ -47,12 +47,130 @@ Toda configuração de conexão e execução do banco de dados esta disponível 
 
 Faça o download do arquivo zip e descompacte na workspace da IDE. Então importe e abra o arquivo descompactado localizado na workspace da IDE.
 
-### Baixando via Github
+### Clonando via Github
 
 Requisitos:
 Git : https://git-scm.com  
 Na pasta onde se deseja salvar o clone do projeto, clique com o botão direito na área da pasta e selecione a opção "Git Bash Here". Quando o terminal for aberto copie, cole e execute o seguinte comando :
 
-git clone https://github.com/marcosbilobram/cpf-handler-api.git
+git clone https://github.com/marcosbilobram/high-risk-cpf-api.git
 
-## Como acessar a aplicação
+### Importando postman collection
+
+Requisitos : 
+Postman: https://www.postman.com
+
+Ao ser realizado o clone ou download do projeto, caso deseje utilizar a ferramenta postman para os testes de métodos HTTP, abra o programa postman, entre ou crie uma workspace, clique no botão "import" localizado no canto superior esquerdo e insira o arquivo "High-Risk-Cpf-API methods.postman_collection" na drop box ou apenas recupere o mesmo da pasta clonada do projeto.
+
+# Detalhamento dos endpoints
+
+Para um detalhamento completo dos endpoints feito pelo swagger, após a execução da aplicação, acesse a interface do swagger da aplicação pelo link : http://localhost:8080/swagger-ui/index.html#/.
+
+Segue abaixo detalhamento dos endpoint:
+
+Conforme citado anterirormente, o projeto é executado na URL http://localhost:8080
+
+---
+> **GET** /high-risk-cpf/cpf
+>
+> Retorna todos os CPFs cadastrados ou array vazio
+
+```js
+Response:
+[
+    {
+        "cpf": "413.530.550-43",
+        "createdAt" : "2023-03-27T02:41:56"
+    },
+    {
+        "cpf": "428.594.522-57",
+        "createdAt" : "2023-03-27T02:42:56"
+    }
+]
+
+Or:
+    []
+
+```
+---
+
+> **POST** /high-risk-cpf/cpf
+> 
+> Insere o cpf fornecido na base de dados
+
+``` js
+Request Body:
+{
+	"cpf": "413.530.550-43"
+}
+``` 
+---
+
+
+> **GET** /high-risk-cpf/cpf/{cpf}
+
+> Retorna o CPF fornecido se estiver na base de dados
+
+``` js
+Request Body:
+{
+	"cpf": "413.530.550-43"
+}
+``` 
+
+---
+
+```js
+Response Body:
+    {
+        "cpf": "413.530.550-43",
+        "createdAt" : "2023-03-27T02:41:56"
+    }
+```
+
+---
+
+> **Delete** /high-risk-cpf/cpf/{cpf}
+
+> Remove o CPF fornecido se estiver na base de dados
+
+``` js
+Request Body:
+{
+	"cpf": "413.530.550-43"
+}
+``` 
+---
+
+# Exceções
+
+Foram implementadas exceções para tratar possíveis erros na aplicação.
+
+> Caso o CPF fornecido seja inválido:
+
+``` js
+InvalidCpfException:
+{
+	"type" : "InvalidCpfException",
+	"message" : "CPF is not valid."
+}
+```
+> Caso o CPF fornecido no método POST já exista na base de dados
+
+``` js
+ExistsCpfException:
+{
+	"type" : "ExistsCpfException",
+	"message" : "CPF already exists in databse"
+}
+```
+
+> Caso o CPF fornecido nos métodos GET não sejam encontrados na base de dados
+
+``` js
+NotFoundCpfException:
+{
+	"type" : "NotFoundCpfException",
+	"message" : "Can't find the given CPF in data bank"
+}
+```
